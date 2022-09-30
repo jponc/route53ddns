@@ -1,4 +1,4 @@
-module route53-ddns
+module route53ddns
 
 go 1.19
 

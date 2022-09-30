@@ -1,9 +1,9 @@
 package main
 
 import (
-	"route53-ddns/internal/dynamicdns"
-	"route53-ddns/internal/ipdetector"
-	"route53-ddns/pkg/route53"
+	"route53ddns/internal/dynamicdns"
+	"route53ddns/internal/ipdetector"
+	"route53ddns/pkg/route53"
 
 	log "github.com/sirupsen/logrus"
 )
