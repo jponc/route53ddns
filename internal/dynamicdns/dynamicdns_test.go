@@ -67,8 +67,6 @@ func Test_NewDynamicDNS(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			fmt.Printf(">>> %v \n", tt.route53Client)
-			fmt.Printf(">>> %v \n", nil)
 			dynamicDNS, err := dynamicdns.NewDynamicDNS(tt.detector, tt.route53Client)
 			if tt.isErr {
 				require.Error(t, err)

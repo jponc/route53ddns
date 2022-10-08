@@ -6,14 +6,18 @@ import (
 	"net/http"
 )
 
-type Detector struct{}
+type Detector struct {
+	httpClient *http.Client
+}
 
-func NewDetector() *Detector {
-	return &Detector{}
+func NewDetector(httpClient *http.Client) *Detector {
+	return &Detector{
+		httpClient: httpClient,
+	}
 }
 
 func (d *Detector) GetIP() (string, error) {
-	resp, err := http.Get("https://ipinfo.io/ip")
+	resp, err := d.httpClient.Get("https://ipinfo.io/ip")
 	if err != nil {
 		return "", fmt.Errorf("failed to request public ip (%w)", err)
 	}

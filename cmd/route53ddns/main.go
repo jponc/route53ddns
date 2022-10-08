@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"route53ddns/internal/dynamicdns"
 	"route53ddns/internal/ipdetector"
 	"route53ddns/pkg/route53"
@@ -10,20 +12,22 @@ import (
 
 func main() {
 	config := NewConfig()
-	detector := ipdetector.NewDetector()
+
+	httpClient := &http.Client{}
+	detector := ipdetector.NewDetector(httpClient)
 
 	route53Client, err := route53.NewClient(config.AWSRegion, config.AWSAccessKeyId, config.AWSSecretAccessKey, config.Route53HostedZoneId)
 	if err != nil {
-		log.Fatalf("failed to build route53 client (%w)", err)
+		log.Fatalf("failed to build route53 client (%v)", err)
 	}
 
 	dynamicDNS, err := dynamicdns.NewDynamicDNS(detector, route53Client)
 	if err != nil {
-		log.Fatalf("failed to build dynamicdns (%w)", err)
+		log.Fatalf("failed to build dynamicdns (%v)", err)
 	}
 
 	err = dynamicDNS.Update(config.Route53Domains)
 	if err != nil {
-		log.Fatalf("failed to update DNS entries (%w)", err)
+		log.Fatalf("failed to update DNS entries (%v)", err)
 	}
 }
