@@ -24,7 +24,7 @@ func main() {
 
 	// Initialise route53Client
 	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(config.AWSRegion),
+		Region:      aws.String("global"),
 		Credentials: credentials.NewStaticCredentials(config.AWSAccessKeyId, config.AWSSecretAccessKey, ""),
 	})
 	if err != nil {

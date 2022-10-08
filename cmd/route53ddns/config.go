@@ -10,7 +10,6 @@ import (
 type Config struct {
 	AWSAccessKeyId      string
 	AWSSecretAccessKey  string
-	AWSRegion           string
 	Route53HostedZoneId string
 	Route53Domains      []string
 }
@@ -22,7 +21,6 @@ func NewConfig() *Config {
 	return &Config{
 		AWSAccessKeyId:      getEnv("AWS_ACCESS_KEY_ID"),
 		AWSSecretAccessKey:  getEnv("AWS_SECRET_ACCESS_KEY"),
-		AWSRegion:           getEnv("AWS_REGION"),
 		Route53HostedZoneId: getEnv("ROUTE53_HOSTED_ZONE_ID"),
 		Route53Domains:      domains,
 	}
