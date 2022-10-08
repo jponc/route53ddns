@@ -25,7 +25,7 @@ func NewDynamicDNS(detector Detector, route53Client Route53Client) (*DynamicDNS,
 	}
 
 	if route53Client == nil {
-		return nil, fmt.Errorf("dynamicdns not initialised, detector not found")
+		return nil, fmt.Errorf("dynamicdns not initialised, route53client not found")
 	}
 
 	return &DynamicDNS{
