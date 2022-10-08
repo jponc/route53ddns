@@ -5,28 +5,24 @@ import (
 	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
 	awsRoute53 "github.com/aws/aws-sdk-go/service/route53"
 
 	log "github.com/sirupsen/logrus"
 )
 
+type Route53Client interface {
+	ChangeResourceRecordSets(input *awsRoute53.ChangeResourceRecordSetsInput) (*awsRoute53.ChangeResourceRecordSetsOutput, error)
+}
+
 type Client struct {
-	awsRoute53Client *awsRoute53.Route53
+	awsRoute53Client Route53Client
 	hostedZoneId     string
 }
 
-func NewClient(awsRegion, awsAccessKeyId, awsSecretAccessKey, hostedZoneId string) (*Client, error) {
-	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(awsRegion),
-		Credentials: credentials.NewStaticCredentials(awsAccessKeyId, awsSecretAccessKey, ""),
-	})
-	if err != nil {
-		return nil, fmt.Errorf("cannot create aws session: %v", err)
+func NewClient(awsRoute53Client Route53Client, hostedZoneId string) (*Client, error) {
+	if awsRoute53Client == nil {
+		return nil, fmt.Errorf("route53Client not initialised, awsRoute53Client not found")
 	}
-
-	awsRoute53Client := awsRoute53.New(sess)
 
 	c := &Client{
 		awsRoute53Client: awsRoute53Client,
